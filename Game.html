@@ -36,14 +36,13 @@ var update = function (modifier) {
 
 bgImage.onload = function() {
 	bgReady = true;
-	console.log("its in BGIMAGEs");
 }
 
 bgImage.src = "images/background.jpg";
 
 var main = function () {
 	
-	console.log("Main");
+	//console.log("Main");
 	
 	render();
 	
@@ -53,7 +52,7 @@ var main = function () {
 
 var render = function ()
 {
-	console.log("in Render");
+	//console.log("in Render");
 	if (bgReady)
 	{
 		ctx.drawImage(bgImage, 0, 0);
