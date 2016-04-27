@@ -1,0 +1,72 @@
+<html>
+
+<head>
+<title> Stacking Box Cash </title>
+
+<script src= "js/CreatingBox.js"></script>
+
+
+</head>
+<body>
+
+<canvas id= "cv" width="1000" height="800" style="border:1px solid #000000;"></canvas>
+
+<script>
+//var cv = document.getElementById("cv").getContext("2d");
+
+//cv.fillText('Hello World', 20,20);
+
+
+var canvas = document.getElementById("cv");
+
+var ctx = canvas.getContext("2d");
+canvas.width = 1000;
+canvas.height = 800;
+document.body.appendChild(canvas);
+
+//BG Image
+var bgReady = false;
+var bgImage = new Image();
+
+
+
+var update = function (modifier) {
+	
+}
+
+bgImage.onload = function() {
+	bgReady = true;
+	console.log("its in BGIMAGEs");
+}
+
+bgImage.src = "images/background.jpg";
+
+var main = function () {
+	
+	console.log("Main");
+	
+	render();
+	
+	requestAnimationFrame(main);
+}
+
+
+var render = function ()
+{
+	console.log("in Render");
+	if (bgReady)
+	{
+		ctx.drawImage(bgImage, 0, 0);
+	}
+}
+
+main ();
+
+
+</script>
+
+
+</body>
+
+
+</html>
