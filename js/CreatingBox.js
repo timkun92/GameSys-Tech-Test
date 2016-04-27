@@ -19,6 +19,8 @@ iconBoxBlue.src = "images/BoxBlue.png";
 iconBoxGreen.src = "images/BoxGreen.png";
 
 var boxList = [];
+var boxLimit = 5;
+var boxCount = 0;
 
 iconBoxRed.onload = function() {
 	iconBoxRedReady = true;
@@ -35,6 +37,15 @@ iconBoxGreen.onload = function() {
 function AddingRandomBox()
 {
 	console.log("Adding Box");
+	
+	if (boxCount >= boxLimit)
+	{
+		return;
+	}
+	else
+	{
+		boxCount++;
+	}
 	
 	var randomInt = Math.floor((Math.random() * 3) + 1);
 	
@@ -56,7 +67,7 @@ function AddingRandomBox()
 	
 	var newBox = {
 		img: icon,
-		movementSpeed: 1,
+		movementSpeed: 5,
 		id: randomInt,
 		x: 0,
 		y: 100
@@ -72,8 +83,32 @@ function BoxMovement(m)
 {
 	for (var i = 0; i < boxList.length; i++)
 	{
-		boxList[i].x += boxList[i].movementSpeed;
+		if (boxList[i].x < (500 - (i * 100)))
+		{
+			boxList[i].x += boxList[i].movementSpeed;
+		}
+		else
+		{
+			boxList.x = 300;
+		}
+		
 	}
+}
+
+function RemoveBox()
+{
+	if (boxCount <= 0)
+	{
+		return;
+	}
+	else
+	{
+		boxList.splice(0, 1);
+	}
+	
+	boxCount--;
+	
+	
 }
 
 function DrawBox(ctx)
