@@ -5,24 +5,21 @@
 		<title> Stacking Box Cash </title>
 		<script src= "js/CreatingBox.js"></script>
 		<script src= "js/StackArea.js"></script>
+		<script src= "js/Controls.js"></script>
 
 	</head>
 	<body>
 
-		<canvas id= "cv" width="1000" height="800" style="border:1px solid #000000;"></canvas>
-
-		<script>
-			//var cv = document.getElementById("cv").getContext("2d");
-
-			//cv.fillText('Hello World', 20,20);
-			
+		<canvas id= "cv" width="1000" height="800" style="border:1px solid #000000;">
+		
+		<script>			
 			console.log("Developed by Tim Nguyen");
 
 			var canvas = document.getElementById("cv");
 
 			var ctx = canvas.getContext("2d");
 			canvas.width = 1024;
-			canvas.height = 800;
+			canvas.height = 650;
 			document.body.appendChild(canvas);
 
 			//BG Image
@@ -36,8 +33,33 @@
 			}
 
 			var user = {
-				credit: 10
+				credit: 10,
+				boxes: 0,
+				clear: 2
 			};
+			
+			var userCredit;
+			var scoreBoxes;
+			var betAmount;
+			var clearCount;
+			
+			function ApplyScore(type, value)
+			{
+				switch (type)
+				{
+					case ("Boxes"):
+						user.boxes += value;
+						console.log("Boxes: " + user.boxes);
+						break;
+				}
+			}
+			
+			var startButton = new Image();
+			startButton.src = "images/Start.png";
+			
+			var startbtn = document.createElement("Button");
+			
+			//document.body.appendChild(startbtn);
 
 			var update = function (modifier) {
 				BoxMovement(modifier);	
@@ -64,77 +86,41 @@
 					//ctx.drawImage(bgImage, 0, 0); // this needs to be changed to a normal picture
 				}
 				
+				//ctx.drawImage(startButton, 0, 0, 256, 256);
 				
-				//ctx.drawImage(iconBoxRed,0,0, 96, 96);
 				DrawBox(ctx);
 				DrawStackAreaBoxes(ctx);
+			}
+			
+			var restartGame = function ()
+			{
+				clearCount = 2;
 			}
 			
 			var then = Date.now();
 			
 			main ();
 			
-			addEventListener("keydown", Click);
-			addEventListener("keyup", Release);
 			
-			var space = false;
-			var fKey = false;
-			var gKey = false; 
-			var hKey = false;
-			
-			function Click(e)
-			{
-				if (32 == e.keyCode && !space)
-				{
-					space = true;					
-					AddingRandomBox();
-				}
-				
-				if (70 == e.keyCode && !fKey)
-				{
-					fKey = true;
-					RemoveBox(0);
-				}
-				
-				if (71 == e.keyCode && !gKey)
-				{
-					gKey = true;
-					RemoveBox(1);
-				}
-				
-				if (72 == e.keyCode && !hKey)
-				{
-					hKey = true;
-					RemoveBox(2);
-				}
-				
-			}
-			
-			function Release(e)
-			{
-				if (32 == e.keyCode)
-				{
-					space = false;
-				}
-				
-				if (70 == e.keyCode)
-				{
-					fKey = false;
-				}
-				
-				if (71 == e.keyCode)
-				{
-					gKey = false;
-				}
-				
-				if (72 == e.keyCode)
-				{
-					hKey = false;
-				}
-			}
 
 		</script>
-
+		
+		</canvas>
+		
+		<div style="position: relative; left: 20; top:0;">
+			<img id= "Add1Btn" onmousedown="BtnAdd1(true)" onmouseup="BtnAdd1(false)" onmouseout="BtnAdd1(false)" src="images/+1.png" width="100" height="100" style="position: relative; top: -20px;">
+			<img id= "Add10Btn" onmousedown="BtnAdd10(true)" onmouseup="BtnAdd10(false)" onmouseout="BtnAdd10(false)" src="images/+10.png" width="100" height="100" style="position: relative; left: -20px; top: -20px;">
+			<img id= "StartBtn" onmousedown="BtnStart(true)" onmouseup="BtnStart(false)" onmouseout="BtnStart(false)" src="images/Start.png" width="100" height="100" style="position: relative; left: 650px; top: -20px">
+			
+			<img id= "Stack1Btn" onmousedown="BtnStack1(true)" onmouseup="BtnStack1(false)" onmouseout="BtnStack1(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 30px; top: -20px;">
+			<img id= "Stack2Btn" onmousedown="BtnStack2(true)" onmouseup="BtnStack2(false)" onmouseout="BtnStack2(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 25px;  top: -20px;">
+			<img id= "Stack3Btn" onmousedown="BtnStack3(true)" onmouseup="BtnStack3(false)" onmouseout="BtnStack3(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 20px;  top: -20px;">
+		</div>
+		<div style="position: relative; left: 20; top:0;">
+			<img id= "Sub1Btn" onmousedown="BtnSub1(true)" onmouseup="BtnSub1(false)" onmouseout="BtnSub1(false)" src="images/-1.png" width="100" height="100" style="position: relative; top: -50px;">
+			<img id= "Sub10Btn" onmousedown="BtnSub10(true)" onmouseup="BtnSub10(false)" onmouseout="BtnSub10(false)" src="images/-10.png" width="100" height="100" style="position: relative; left: -20px; top: -50px;">
+		</div>
+		
 
 	</body>
 

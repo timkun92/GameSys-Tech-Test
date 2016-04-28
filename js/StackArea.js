@@ -3,9 +3,11 @@ var stackAreaImage = new Image();
 
 var stackArea = new Array(3);
 
+stackAreaImage.src = "images/StackArea.png";
+
 var stackLocation = {
-	x: 0,
-	y: 500
+	x: 512,
+	y: 400
 };
 
 for (var s = 0; s < 3; s++)
@@ -88,48 +90,43 @@ function CheckStackLines()
 		something = true;
 	}
 	
-	
-	/*
-	//check if there are lines
-	for (var lx = 0; lx < 3; lx ++)
-	{
-		var checkStack = [];
-		checkStack.push(0);
-		var typeCheck = stackArea[lx][0].boxId;
-		for (var ly = 1; ly < 3; ly++)
-		{
-			if (typeCheck == stackArea[lx][ly].boxId)
-			{
-				checkStack.push(ly);
-			}
-			else
-			{
-				checkStack.splice(0);
-				break;
-			}
-		}
-		if (checkStack.length > 2)
-		{
-			var x;
-			for(x in checkStack)
-			{
-				removeBoxes[count] = [lx][checkStack[x]];
-				count++;
-			}				
-		}
-	}
-	*/
 	if (something)
 	{
 		RemoveLines(removeBoxes);
-		
+	}
+	else
+	{
+		CheckStackFull();
 	}
 	
 }
 
+function ClearButton()
+{
+	for (var s = 0; s < 3; s++)
+	{
+		stackArea[s] = [' ', ' ', ' '];
+	}
+}
+
+function CheckStackFull()
+{
+	var gameover = true;
+	if (stackArea[2][0] == ' ' || stackArea[2][1] == ' ' || stackArea[2][2] == ' ')
+	{
+		gameover = false;
+	}
+	else
+	{
+		console.log("No More Space");
+		
+	}
+	//Add check for Clear button
+}
 
 function RemoveLines(removeBoxes)
 {
+	var rCount = 0;
 	for (var rx = 0; rx < 3; rx++)
 	{
 		for (var ry = 0; ry < 3; ry++)
@@ -137,14 +134,15 @@ function RemoveLines(removeBoxes)
 			if (removeBoxes[rx][ry])
 			{
 				stackArea[rx][ry] = ' ';
-				//stackArea[rx].splice(ry,1);
 				removeBoxes[rx][ry] = false;
-				//removeBoxes[rx].splice(ry,1);
 				rx = 0;
 				ry = 0;
+				rCount++;
 			}
 		}
 	}
+	
+	ApplyScore("Boxes", rCount);
 	something = false;
 	CheckBoxesPosition();
 }

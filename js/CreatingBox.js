@@ -1,5 +1,3 @@
-
-
 //Adding Images
 var iconBoxRedReady = false;
 var iconBoxRed = new Image();
@@ -31,7 +29,7 @@ iconBoxGreen.onload = function() {
 
 function AddingRandomBox()
 {
-	console.log("Adding Box");
+	//console.log("Adding Box");
 	
 	if (boxCount >= boxLimit)
 	{
@@ -90,7 +88,6 @@ function BoxMovement(m)
 		{
 			boxList.x = 300;
 		}
-		
 	}
 }
 
@@ -107,11 +104,8 @@ function RemoveBox(stackNum)
 	{
 		boxList.splice(0, 1);
 		CheckStackLines();
+		boxCount--;
 	}
-		
-	boxCount--;
-	
-	
 }
 
 function DrawBox(ctx)
@@ -124,16 +118,20 @@ function DrawBox(ctx)
 
 function DrawStackAreaBoxes(ctx)
 {
+	ctx.drawImage(stackAreaImage, stackLocation.x - 175, stackLocation.y - 125, 350,350);
+	
 	for(var x = 0; x < 3; x++)
 	{
 		for (var y = 0; y < 3; y++)
 		{
 			if (stackArea[x][y] != ' ')
 			{
-				ctx.drawImage(stackArea[x][y].img, stackArea[x][y].x + stackLocation.x - 100 + (100 * x), (stackArea[x][y].y + (stackLocation.y) - (100 * y)), 96, 96);
+				ctx.drawImage(stackArea[x][y].img, stackLocation.x - 150 + (100 * x), (stackArea[x][y].y + (stackLocation.y) - (100 * y)), 100, 100);
 			}
 		}
 	}
+	
+	
 }
 
 
