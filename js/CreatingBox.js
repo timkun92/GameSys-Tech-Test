@@ -49,16 +49,20 @@ function AddingRandomBox()
 	
 	var randomInt = Math.floor((Math.random() * 3) + 1);
 	
+	var id;
 	var icon;
 		switch (randomInt)
 		{
 			case 1:
+				id = 'R';
 				icon = iconBoxRed;
 				break;
 			case 2:
+				id = 'B';
 				icon = iconBoxBlue;
 				break;
 			case 3:
+				id = 'G';
 				icon = iconBoxGreen;
 				break;
 			default:
@@ -66,9 +70,9 @@ function AddingRandomBox()
 		}
 	
 	var newBox = {
+		boxId: id,
 		img: icon,
 		movementSpeed: 5,
-		id: randomInt,
 		x: 0,
 		y: 100
 	};
@@ -95,17 +99,21 @@ function BoxMovement(m)
 	}
 }
 
-function RemoveBox()
+function RemoveBox(stackNum)
 {
 	if (boxCount <= 0)
 	{
 		return;
 	}
-	else
+
+	var check = SetStackArea(stackNum, boxList[0].boxId);
+		
+	if (check)
 	{
 		boxList.splice(0, 1);
+		CheckStackLines();
 	}
-	
+		
 	boxCount--;
 	
 	
