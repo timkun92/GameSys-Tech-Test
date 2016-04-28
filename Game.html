@@ -67,6 +67,7 @@
 				
 				//ctx.drawImage(iconBoxRed,0,0, 96, 96);
 				DrawBox(ctx);
+				DrawStackAreaBoxes(ctx);
 			}
 			
 			var then = Date.now();
@@ -78,6 +79,8 @@
 			
 			var space = false;
 			var fKey = false;
+			var gKey = false; 
+			var hKey = false;
 			
 			function Click(e)
 			{
@@ -93,6 +96,18 @@
 					RemoveBox(0);
 				}
 				
+				if (71 == e.keyCode && !gKey)
+				{
+					gKey = true;
+					RemoveBox(1);
+				}
+				
+				if (72 == e.keyCode && !hKey)
+				{
+					hKey = true;
+					RemoveBox(2);
+				}
+				
 			}
 			
 			function Release(e)
@@ -105,6 +120,16 @@
 				if (70 == e.keyCode)
 				{
 					fKey = false;
+				}
+				
+				if (71 == e.keyCode)
+				{
+					gKey = false;
+				}
+				
+				if (72 == e.keyCode)
+				{
+					hKey = false;
 				}
 			}
 

@@ -8,11 +8,6 @@ var iconBoxBlue = new Image();
 var iconBoxGreenReady = false;
 var iconBoxGreen = new Image();
 
-/*
-var box = {
-	movementSpeed: 20, x: 0, y: 100
-};
-*/
 
 iconBoxRed.src = "images/BoxRed.png";
 iconBoxBlue.src = "images/BoxBlue.png";
@@ -106,7 +101,7 @@ function RemoveBox(stackNum)
 		return;
 	}
 
-	var check = SetStackArea(stackNum, boxList[0].boxId);
+	var check = SetStackArea(stackNum, boxList[0]);
 		
 	if (check)
 	{
@@ -121,11 +116,23 @@ function RemoveBox(stackNum)
 
 function DrawBox(ctx)
 {
-	
-	
 	for (var b = 0; b < boxList.length; b++)
 	{
 		ctx.drawImage(boxList[b].img,boxList[b].x, boxList[b].y, 96, 96 );
+	}
+}
+
+function DrawStackAreaBoxes(ctx)
+{
+	for(var x = 0; x < 3; x++)
+	{
+		for (var y = 0; y < 3; y++)
+		{
+			if (stackArea[x][y] != ' ')
+			{
+				ctx.drawImage(stackArea[x][y].img, stackArea[x][y].x + stackLocation.x - 100 + (100 * x), (stackArea[x][y].y + (stackLocation.y) - (100 * y)), 96, 96);
+			}
+		}
 	}
 }
 
