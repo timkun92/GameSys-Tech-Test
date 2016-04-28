@@ -76,7 +76,7 @@ function BtnStart(value)
 	{
 		startButton.src = "images/StartPush.png";
 		
-		if (startGame)
+		if (startGame || gamePause)
 		{
 			return;
 		}
@@ -133,6 +133,26 @@ function BtnStack3(value)
 	else
 	{
 		stack3Button.src = "images/Stack.png";
+	}
+}
+
+function BtnClear(value)
+{
+	
+	var clearButton = document.getElementById('ClearBtn');
+	if (value)
+	{
+		clearButton.src = "images/ClearPush.png";
+		if (clearCount >= 1)
+		{
+			clearCount--;
+			ClearButton();
+		}
+		
+	}
+	else
+	{
+		clearButton.src = "images/Clear.png";
 	}
 }
 
@@ -204,31 +224,6 @@ function ApplyBid(value)
 {
 	if (!startGame)
 	{
-		if(value > 0)
-		{
-			if (user.credit >= value)
-			{
-				betAmount += value;
-				user.credit -= value;
-			}
-			else
-			{
-				betAmount += user.credit;
-				user.credit = 0; 
-			}
-		}
-		else if (value < 0)
-		{
-			if (betAmount >= (value * -1))
-			{
-				betAmount += value;
-				user.credit -= value;
-			}
-			else
-			{
-				user.credit += betAmount;
-				betAmount = 0;
-			}
-		}
+		BetCheck(value);
 	}
 }

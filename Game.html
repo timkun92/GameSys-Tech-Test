@@ -6,6 +6,7 @@
 		<script src= "js/CreatingBox.js"></script>
 		<script src= "js/StackArea.js"></script>
 		<script src= "js/Controls.js"></script>
+		<script src= "js/Bidding.js"></script>
 
 	</head>
 	<body>
@@ -35,26 +36,16 @@
 			var user = {
 				credit: 10,
 				boxes: 0,
-				clear: 2
 			};
 			
 			var userCredit;
-			var scoreBoxes;
+			var wonCredit = 0;
 			var boxValue = 0;
 			var betAmount = 0;
-			var clearCount;
+			var clearCount = 2;
 			var gameTime = 30;
+			var gamePause = false;
 			
-			function ApplyScore(type, value)
-			{
-				switch (type)
-				{
-					case ("Boxes"):
-						user.boxes += value;
-						console.log("Boxes: " + user.boxes);
-						break;
-				}
-			}
 			
 			var startGame = false;
 			
@@ -73,7 +64,7 @@
 					Timer(modifier);
 					
 					var timeNow = Date.now();
-					if (timeNow - timeBefore >= 500)
+					if (timeNow - timeBefore >= 250)
 					{
 						AddingRandomBox();
 						timeBefore = Date.now();
@@ -116,9 +107,38 @@
 					if (timeLeft <= 0)
 					{
 						timeLeft = 0;
-						startGame = false;
-						setupTime = false;
+						WaitTimer(5);
 					}
+				}
+			}
+			
+			var wait = false;
+			var waitTime = 0;
+			var waitBegin;
+			function WaitTimer(seconds)
+			{
+				if (!wait)
+				{
+					wait = true;
+					waitBegin = Date.now();
+					gamePause = true;
+					console.log("Waiting");
+				}
+				
+				var timeN = Date.now();
+				waitTime = seconds - ((timeN - waitBegin) / 1000);
+				
+				console.log(waitTime);
+				
+				if (waitTime <= 0)
+				{
+					console.log("Continue");
+					
+					setupTime = false;
+					gamePause = false;
+					startGame = false;
+					wait = false;
+					ApplyCredit();
 				}
 			}
 			
@@ -141,7 +161,10 @@
 				ctx.drawImage(iconBoxWhite, 50, 300, 96, 96);
 				
 				ctx.fillText(" = ", 180, 360);
-				ctx.fillText(boxValue.toFixed(2), 240, 360);
+				ctx.fillText(" $ " + boxValue.toFixed(2), 240, 360);
+				
+				ctx.fillText("Amount Won", 800, 360);
+				ctx.fillText(" $ " + wonCredit.toFixed(2), 800, 390);
 				
 				ctx.fillText("Timer",512,30);
 				ctx.fillText(timeLeft.toFixed(2), 512, 60);
@@ -150,6 +173,10 @@
 				ctx.fillText(" $ " + user.credit.toFixed(2), 80, 620);
 				ctx.fillText("Bet", 200, 590);
 				ctx.fillText(" $ " + betAmount, 200, 620);
+				
+				
+				//ctx.fillText("Clear Stack", 800, 590);
+				//ctx.fillText(" $ " + betAmount, 200, 620);
 				
 				DrawBox(ctx);
 				DrawStackAreaBoxes(ctx);
@@ -165,6 +192,7 @@
 				if (betAmount > 0)
 				{
 					startGame = true;
+					pauseGame = false;
 				}
 			}
 			
@@ -186,6 +214,8 @@
 			<img id= "Stack1Btn" onmousedown="BtnStack1(true)" onmouseup="BtnStack1(false)" onmouseout="BtnStack1(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 30px; top: -20px;">
 			<img id= "Stack2Btn" onmousedown="BtnStack2(true)" onmouseup="BtnStack2(false)" onmouseout="BtnStack2(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 25px;  top: -20px;">
 			<img id= "Stack3Btn" onmousedown="BtnStack3(true)" onmouseup="BtnStack3(false)" onmouseout="BtnStack3(false)" src="images/Stack.png" width="100" height="100" style="position: relative; left: 20px;  top: -20px;">
+			
+			<img id= "ClearBtn" onmousedown="BtnClear(true)" onmouseup="BtnClear(false)" onmouseout="BtnClear(false)" src="images/Clear.png" width="100" height="100" style="position: relative; left: 60px;  top: -20px;">
 		</div>
 		<div style="position: relative; left: 20; top:0;">
 			<img id= "Sub1Btn" onmousedown="BtnSub1(true)" onmouseup="BtnSub1(false)" onmouseout="BtnSub1(false)" src="images/-1.png" width="100" height="100" style="position: relative; top: -50px;">

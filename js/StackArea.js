@@ -115,7 +115,11 @@ function CheckStackFull()
 	{
 		console.log(stackArea[2][0]);
 		console.log("No More Space");
-		startGame = false;
+		if (clearCount <= 0)
+		{
+			startGame = false;
+		}
+		
 	}
 	//Add check for Clear button
 }

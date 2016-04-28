@@ -49,7 +49,7 @@ function AddingRandomBox()
 		boxCount++;
 	}
 	
-	var randomInt = Math.floor((Math.random() * 3) + 1);
+	var randomInt = Math.floor((Math.random() * 4) + 1);
 	
 	var id;
 	var icon;
@@ -66,6 +66,10 @@ function AddingRandomBox()
 			case 3:
 				id = 'G';
 				icon = iconBoxGreen;
+				break;
+			case 4:
+				id = 'W';
+				icon = iconBoxWhite;
 				break;
 			default:
 				console.log("Unknown Number");
