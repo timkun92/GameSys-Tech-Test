@@ -42,7 +42,7 @@ function AddingRandomBox()
 		boxCount++;
 	}
 	
-	var randomInt = Math.floor((Math.random() * 3) + 1);
+	var randomInt = Math.floor((Math.random() * 2) + 1);
 	
 	var id;
 	var icon;
