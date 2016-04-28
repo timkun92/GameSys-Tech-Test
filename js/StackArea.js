@@ -111,15 +111,11 @@ function ClearButton()
 
 function CheckStackFull()
 {
-	var gameover = true;
-	if (stackArea[2][0] == ' ' || stackArea[2][1] == ' ' || stackArea[2][2] == ' ')
+	if (stackArea[0][2] != ' ' && stackArea[1][2] != ' ' && stackArea[2][2] != ' ')
 	{
-		gameover = false;
-	}
-	else
-	{
+		console.log(stackArea[2][0]);
 		console.log("No More Space");
-		
+		startGame = false;
 	}
 	//Add check for Clear button
 }
@@ -133,6 +129,7 @@ function RemoveLines(removeBoxes)
 		{
 			if (removeBoxes[rx][ry])
 			{
+				console.log(rx + " " + ry);
 				stackArea[rx][ry] = ' ';
 				removeBoxes[rx][ry] = false;
 				rx = 0;

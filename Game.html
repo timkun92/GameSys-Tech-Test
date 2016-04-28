@@ -21,7 +21,7 @@
 			canvas.width = 1024;
 			canvas.height = 650;
 			document.body.appendChild(canvas);
-
+			
 			//BG Image
 			var bgReady = false;
 			var bgImage = new Image();
@@ -40,8 +40,10 @@
 			
 			var userCredit;
 			var scoreBoxes;
-			var betAmount;
+			var boxValue = 0;
+			var betAmount = 0;
 			var clearCount;
+			var gameTime = 30;
 			
 			function ApplyScore(type, value)
 			{
@@ -54,15 +56,31 @@
 				}
 			}
 			
+			var startGame = false;
+			
 			var startButton = new Image();
 			startButton.src = "images/Start.png";
 			
 			var startbtn = document.createElement("Button");
 			
 			//document.body.appendChild(startbtn);
-
+			
+			var timeBefore = Date.now();
 			var update = function (modifier) {
-				BoxMovement(modifier);	
+				
+				if (startGame)
+				{
+					Timer(modifier);
+					
+					var timeNow = Date.now();
+					if (timeNow - timeBefore >= 500)
+					{
+						AddingRandomBox();
+						timeBefore = Date.now();
+					}
+				
+					BoxMovement(modifier);	
+				}
 			}
 			
 			var main = function () {
@@ -76,7 +94,34 @@
 	
 				requestAnimationFrame(main);
 			}
-
+			
+			var setupTime = false;
+			var begin;
+			var timeLeft = 0;
+			function Timer(mod)
+			{			
+				if (!setupTime)
+				{
+					setupTime = true;
+					begin = Date.now();
+				}
+				else
+				{
+					var timeNow = Date.now();
+					timeLeft = gameTime - ((timeNow - begin) / 1000);
+				
+					
+					//console.log(timeLeft);
+				
+					if (timeLeft <= 0)
+					{
+						timeLeft = 0;
+						startGame = false;
+						setupTime = false;
+					}
+				}
+			}
+			
 			var render = function ()
 			{
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,15 +131,41 @@
 					//ctx.drawImage(bgImage, 0, 0); // this needs to be changed to a normal picture
 				}
 				
-				//ctx.drawImage(startButton, 0, 0, 256, 256);
+				ctx.font = "20px Arial";
+				ctx.textAlign = "center";
+				ctx.fillText("per Box ", 100, 425);
+				
+				ctx.font = "30px Arial";
+				ctx.textAlign = "center";
+				
+				ctx.drawImage(iconBoxWhite, 50, 300, 96, 96);
+				
+				ctx.fillText(" = ", 180, 360);
+				ctx.fillText(boxValue.toFixed(2), 240, 360);
+				
+				ctx.fillText("Timer",512,30);
+				ctx.fillText(timeLeft.toFixed(2), 512, 60);
+				
+				ctx.fillText("Credit", 80, 590);
+				ctx.fillText(" $ " + user.credit.toFixed(2), 80, 620);
+				ctx.fillText("Bet", 200, 590);
+				ctx.fillText(" $ " + betAmount, 200, 620);
 				
 				DrawBox(ctx);
 				DrawStackAreaBoxes(ctx);
+				
+				
 			}
 			
 			var restartGame = function ()
 			{
+				ClearButton();
+				ClearBoxCounts();
 				clearCount = 2;
+				if (betAmount > 0)
+				{
+					startGame = true;
+				}
 			}
 			
 			var then = Date.now();

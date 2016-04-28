@@ -75,20 +75,31 @@ function BtnStart(value)
 	if (value)
 	{
 		startButton.src = "images/StartPush.png";
+		
+		if (startGame)
+		{
+			return;
+		}
+		else
+		{
+			restartGame();
+		}
 	}
 	else
 	{
 		startButton.src = "images/Start.png";
 	}
-			
+	
 }
 
 function BtnStack1(value)
 {
+	
 	var stack1Button = document.getElementById('Stack1Btn');
 	if (value)
 	{
 		stack1Button.src = "images/StackPush.png";
+		ApplyStack(0);
 	}
 	else
 	{
@@ -102,6 +113,7 @@ function BtnStack2(value)
 	if (value)
 	{
 		stack2Button.src = "images/StackPush.png";
+		ApplyStack(1);
 	}
 	else
 	{
@@ -111,14 +123,24 @@ function BtnStack2(value)
 
 function BtnStack3(value)
 {
+	
 	var stack3Button = document.getElementById('Stack3Btn');
 	if (value)
 	{
 		stack3Button.src = "images/StackPush.png";
+		ApplyStack(2);
 	}
 	else
 	{
 		stack3Button.src = "images/Stack.png";
+	}
+}
+
+function ApplyStack(value)
+{
+	if (startGame)
+	{
+		RemoveBox(value);
 	}
 }
 			
@@ -128,6 +150,7 @@ function BtnAdd1(value)
 	if (value)
 	{
 		add1Button.src = "images/+1Push.png";
+		ApplyBid(1);
 	}
 	else
 	{
@@ -141,6 +164,7 @@ function BtnAdd10(value)
 	if (value)
 	{
 		add10Button.src = "images/+10Push.png";
+		ApplyBid(10);
 	}
 	else
 	{
@@ -154,6 +178,7 @@ function BtnSub1(value)
 	if (value)
 	{
 		sub1Button.src = "images/-1Push.png";
+		ApplyBid(-1);
 	}
 	else
 	{
@@ -167,9 +192,43 @@ function BtnSub10(value)
 	if (value)
 	{
 		sub10Button.src = "images/-10Push.png";
+		ApplyBid(-10);
 	}
 	else
 	{
 		sub10Button.src = "images/-10.png";
+	}
+}
+
+function ApplyBid(value)
+{
+	if (!startGame)
+	{
+		if(value > 0)
+		{
+			if (user.credit >= value)
+			{
+				betAmount += value;
+				user.credit -= value;
+			}
+			else
+			{
+				betAmount += user.credit;
+				user.credit = 0; 
+			}
+		}
+		else if (value < 0)
+		{
+			if (betAmount >= (value * -1))
+			{
+				betAmount += value;
+				user.credit -= value;
+			}
+			else
+			{
+				user.credit += betAmount;
+				betAmount = 0;
+			}
+		}
 	}
 }

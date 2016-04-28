@@ -5,11 +5,14 @@ var iconBoxBlueReady = false;
 var iconBoxBlue = new Image();
 var iconBoxGreenReady = false;
 var iconBoxGreen = new Image();
+var iconBoxWhiteReady = false;
+var iconBoxWhite = new Image();
 
 
 iconBoxRed.src = "images/BoxRed.png";
 iconBoxBlue.src = "images/BoxBlue.png";
 iconBoxGreen.src = "images/BoxGreen.png";
+iconBoxWhite.src = "images/BoxWhite.png";
 
 var boxList = [];
 var boxLimit = 5;
@@ -25,6 +28,12 @@ iconBoxBlue.onload = function() {
 
 iconBoxGreen.onload = function() {
 	iconBoxGreenReady = true;
+}
+
+function ClearBoxCounts()
+{
+	boxList.splice(0);
+	boxCount = 0;
 }
 
 function AddingRandomBox()
@@ -65,7 +74,7 @@ function AddingRandomBox()
 	var newBox = {
 		boxId: id,
 		img: icon,
-		movementSpeed: 5,
+		movementSpeed: 10,
 		x: 0,
 		y: 100
 	};
