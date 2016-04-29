@@ -58,7 +58,13 @@ function ApplyScore(value, valuef)
 
 function ApplyCredit()
 {
-	
-	user.credit += wonCredit - betAmount;
-	wonCredit = 0;
+	if (wonCredit - betAmount < 0)
+	{
+		betAmount = wonCredit;
+	}
+	else
+	{
+		user.credit += wonCredit - betAmount;
+		wonCredit = 0;
+	}
 }
