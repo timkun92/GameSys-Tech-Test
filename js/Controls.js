@@ -143,10 +143,17 @@ function BtnClear(value)
 	if (value)
 	{
 		clearButton.src = "images/ClearPush.png";
-		if (clearCount >= 1)
+		
+		if (startGame && !gamePause)
 		{
-			clearCount--;
-			ClearButton();
+			if (stackArea[0][0] != ' ' || stackArea[1][0] != ' ' || stackArea[2][0] != ' ')
+			{
+				if (clearCount >= 1)
+				{
+					clearCount--;
+					ClearButton();
+				}
+			}
 		}
 		
 	}
@@ -158,7 +165,7 @@ function BtnClear(value)
 
 function ApplyStack(value)
 {
-	if (startGame)
+	if (startGame && !gamePause)
 	{
 		RemoveBox(value);
 	}

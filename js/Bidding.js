@@ -32,11 +32,18 @@ function BetCheck(value)
 
 function BoxValue()
 {
-	boxValue = 0.25 * Math.sqrt(betAmount);
+	//boxValue = (betAmount * 0.25) * (betAmount * 0.10);
+	boxValue = betAmount * 0.05;
+	//boxValue = 0.25 * Math.sqrt(betAmount);
 }
 
-function ApplyScore(type, value)
+function ApplyScore(value, valuef)
 {
+	user.boxes += value;
+	user.boxes += valuef;
+	wonCredit += boxValue * value;
+	wonCredit += (boxValue * 2.5) * valuef;
+	/*
 	switch (type)
 	{
 		case ("Boxes"):
@@ -45,6 +52,7 @@ function ApplyScore(type, value)
 			//console.log("Boxes: " + user.boxes);
 			break;
 	}
+	*/
 	
 }
 

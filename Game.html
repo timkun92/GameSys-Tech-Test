@@ -2,7 +2,7 @@
 
 	<head>
 	
-		<title> Stacking Box Cash </title>
+		<title> Stack Express </title>
 		<script src= "js/CreatingBox.js"></script>
 		<script src= "js/StackArea.js"></script>
 		<script src= "js/Controls.js"></script>
@@ -15,7 +15,9 @@
 		
 		<script>			
 			console.log("Developed by Tim Nguyen");
-
+			
+			
+			
 			var canvas = document.getElementById("cv");
 
 			var ctx = canvas.getContext("2d");
@@ -34,7 +36,7 @@
 			}
 
 			var user = {
-				credit: 10,
+				credit: 20,
 				boxes: 0,
 			};
 			
@@ -43,7 +45,7 @@
 			var boxValue = 0;
 			var betAmount = 0;
 			var clearCount = 2;
-			var gameTime = 30;
+			var gameTime = 45;
 			var gamePause = false;
 			
 			
@@ -89,6 +91,7 @@
 			var setupTime = false;
 			var begin;
 			var timeLeft = 0;
+			var stackFail = false;
 			function Timer(mod)
 			{			
 				if (!setupTime)
@@ -99,15 +102,17 @@
 				else
 				{
 					var timeNow = Date.now();
-					timeLeft = gameTime - ((timeNow - begin) / 1000);
-				
+					if (!stackFail)
+					{
+						timeLeft = gameTime - ((timeNow - begin) / 1000);
+					}
 					
 					//console.log(timeLeft);
 				
-					if (timeLeft <= 0)
+					if (timeLeft <= 0 || stackFail)
 					{
 						timeLeft = 0;
-						WaitTimer(5);
+						WaitTimer(3);
 					}
 				}
 			}
@@ -128,12 +133,12 @@
 				var timeN = Date.now();
 				waitTime = seconds - ((timeN - waitBegin) / 1000);
 				
-				console.log(waitTime);
+				//console.log(waitTime);
 				
 				if (waitTime <= 0)
 				{
 					console.log("Continue");
-					
+					stackFail = false;
 					setupTime = false;
 					gamePause = false;
 					startGame = false;
@@ -151,28 +156,38 @@
 					//ctx.drawImage(bgImage, 0, 0); // this needs to be changed to a normal picture
 				}
 				
-				ctx.font = "20px Arial";
+				ctx.font = "20px Arial Black";
 				ctx.textAlign = "center";
-				ctx.fillText("per Box ", 100, 425);
+				ctx.fillText("per Box ", 100, 500);
 				
-				ctx.font = "30px Arial";
+				ctx.font = "30px Arial Black";
 				ctx.textAlign = "center";
 				
-				ctx.drawImage(iconBoxWhite, 50, 300, 96, 96);
+				ctx.drawImage(iconBoxWhite, 50, 280, 96, 96);
+				ctx.fillText(" = ", 175, 340);
+				ctx.fillText("$" + boxValue.toFixed(2), 240, 340);
 				
-				ctx.fillText(" = ", 180, 360);
-				ctx.fillText(" $ " + boxValue.toFixed(2), 240, 360);
+				ctx.drawImage(iconBoxWhiteF, 50, 380, 96, 96);
+				ctx.fillText(" = ", 175, 440);
+				ctx.fillText("$" + (boxValue * 2.5).toFixed(2), 240, 440);
 				
-				ctx.fillText("Amount Won", 800, 360);
-				ctx.fillText(" $ " + wonCredit.toFixed(2), 800, 390);
+				ctx.fillText("Win", 800, 400);
+				ctx.fillText("$" + wonCredit.toFixed(2), 800, 430);
 				
-				ctx.fillText("Timer",512,30);
-				ctx.fillText(timeLeft.toFixed(2), 512, 60);
+				ctx.fillText("Timer",800, 320);
+				ctx.fillText(timeLeft.toFixed(2), 800, 350);
 				
 				ctx.fillText("Credit", 80, 590);
-				ctx.fillText(" $ " + user.credit.toFixed(2), 80, 620);
-				ctx.fillText("Bet", 200, 590);
-				ctx.fillText(" $ " + betAmount, 200, 620);
+				ctx.fillText("$" + user.credit.toFixed(2), 80, 620);
+				ctx.fillText("Bet", 230, 590);
+				ctx.fillText("$" + betAmount, 230, 620);
+				
+				
+				for (var cs = 0; cs < clearCount; cs++)
+				{
+					ctx.drawImage(iconClearStack, 705,  625 - ((cs + 1) * 90), 100, 100);
+				}
+				
 				
 				
 				//ctx.fillText("Clear Stack", 800, 590);

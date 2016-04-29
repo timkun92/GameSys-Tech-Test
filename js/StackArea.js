@@ -1,9 +1,11 @@
 var iconStackAreaReady = false;
 var stackAreaImage = new Image();
+var iconClearStack = new Image();
 
 var stackArea = new Array(3);
 
 stackAreaImage.src = "images/StackArea.png";
+iconClearStack.src = "images/ClearIcon.png"
 
 var stackLocation = {
 	x: 512,
@@ -26,6 +28,7 @@ function SetStackArea(stackNum, boxId)
 		{
 			stackArea[stackNum][y] = boxId;
 			console.log ("Added: " + boxId.boxId);
+			stackSound.play();
 			return true; 
 		}
 		
@@ -90,11 +93,9 @@ function CheckStackLines()
 		something = true;
 	}
 	
-	if (something)
-	{
-		RemoveLines(removeBoxes);
-	}
-	else
+	RemoveLines(removeBoxes);
+	
+	if (!something)
 	{
 		CheckStackFull();
 	}
@@ -117,7 +118,9 @@ function CheckStackFull()
 		console.log("No More Space");
 		if (clearCount <= 0)
 		{
-			startGame = false;
+			//startGame = false;
+			//timeLeft = 0;
+			stackFail = true;
 		}
 		
 	}
@@ -127,6 +130,7 @@ function CheckStackFull()
 function RemoveLines(removeBoxes)
 {
 	var rCount = 0;
+	var fCount = 0;
 	for (var rx = 0; rx < 3; rx++)
 	{
 		for (var ry = 0; ry < 3; ry++)
@@ -134,41 +138,68 @@ function RemoveLines(removeBoxes)
 			if (removeBoxes[rx][ry])
 			{
 				console.log(rx + " " + ry);
+				if (stackArea[rx][ry].fragile)
+				{ 
+					fCount++;
+				}
+				else
+				{
+					rCount++;
+				}
 				stackArea[rx][ry] = ' ';
 				removeBoxes[rx][ry] = false;
 				rx = 0;
 				ry = 0;
-				rCount++;
+				
 			}
 		}
 	}
 	
-	ApplyScore("Boxes", rCount);
+	if (rCount > 0)
+	{
+		lineSound.play();
+	}	
+	ApplyScore(rCount, fCount);
 	something = false;
 	CheckBoxesPosition();
 }
 
 function CheckBoxesPosition()
 {
+	console.log("Checking");
 	for (var sx = 0; sx < 3; sx++)
 	{
 		var last = false;
+		var fragile = false;
 		for (var sy = 0; sy < 3; sy++)
 		{
 			if (stackArea[sx][sy] == ' ')
 			{
 				last = true;
 			}
+			else if (stackArea[sx][sy].fragile && !last && !fragile)
+			{
+				fragile = true;
+			}
 			else
 			{
 				if (last)
 				{
-					console.log("moving");
-					stackArea[sx][sy - 1] = stackArea[sx][sy]; 
+					stackArea[sx][sy - 1] = stackArea[sx][sy];
 					stackArea[sx][sy] = ' ';
 					sx = 0;
 					sy = 0;
 					last = false;
+				}
+				else if (fragile)
+				{
+					stackArea[sx][sy - 1] = stackArea[sx][sy];
+					stackArea[sx][sy] = ' ';
+					sx = 0;
+					sy = 0;
+					breakSound.play();
+					last = false;
+					fragile = false;
 				}
 			}
 		}
