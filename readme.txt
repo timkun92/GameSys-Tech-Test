@@ -1,3 +1,7 @@
-Extract the whole folder and double click the Html File.
+Download the Zip
+
+Extract the Folder
+
+And Open Game On Either FireFox or Chrome
 
 Have Fun
