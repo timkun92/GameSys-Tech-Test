@@ -29,7 +29,12 @@
 			var bgReady = false;
 			var bgImage = new Image();
 			
-			bgImage.src = "images/background.jpg";
+			var titleImage = new Image();
+			var instructionImage = new Image();
+			
+			bgImage.src = "images/background.png";
+			titleImage.src = "images/Title.png";
+			instructionImage.src = "images/Instructions.png";
 
 			bgImage.onload = function() {
 				bgReady = true;
@@ -153,8 +158,10 @@
 				//console.log("in Render");
 				if (bgReady)
 				{
-					//ctx.drawImage(bgImage, 0, 0); // this needs to be changed to a normal picture
+					ctx.drawImage(bgImage, 0, -150, 1024, 800); // this needs to be changed to a normal picture
 				}
+				ctx.drawImage(titleImage, 512 - 150,-20, 300, 150);
+				ctx.drawImage(instructionImage, 725, 50, 256, 256);
 				
 				ctx.font = "20px Arial Black";
 				ctx.textAlign = "center";
