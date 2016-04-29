@@ -18,25 +18,35 @@ function Click(e)
 	if (70 == e.keyCode && !fKey)
 	{
 		fKey = true;
-		RemoveBox(0);
+		ApplyStack(0);
 	}
 			
 	if (71 == e.keyCode && !gKey)
 	{
 		gKey = true;
-		RemoveBox(1);
+		ApplyStack(1);
 	}
 	
 	if (72 == e.keyCode && !hKey)
 	{
 		hKey = true;
-		RemoveBox(2);
+		ApplyStack(2);
 	}
 	
 	if (74 == e.keyCode && !jKey)
 	{
 		jKey = true;
-		ClearButton();
+		if (startGame && !gamePause)
+		{
+			if (stackArea[0][0] != ' ' || stackArea[1][0] != ' ' || stackArea[2][0] != ' ')
+			{
+				if (clearCount >= 1)
+				{
+					clearCount--;
+					ClearButton();
+				}
+			}
+		}
 	}
 	
 }
@@ -155,7 +165,6 @@ function BtnClear(value)
 				}
 			}
 		}
-		
 	}
 	else
 	{
